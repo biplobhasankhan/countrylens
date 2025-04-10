@@ -3,58 +3,55 @@
 import { createContext, useContext, useEffect, useState } from "react"
 
 const ThemeContext = createContext({
-  theme: "system",
+  theme: "dark",
   setTheme: () => null,
+  toggleTheme: () => null,
 })
 
-export function ThemeProvider({ children, defaultTheme = "system", attribute = "class", enableSystem = true }) {
-  const [theme, setTheme] = useState(defaultTheme)
+export function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState("dark")
   const [mounted, setMounted] = useState(false)
 
-  // Update the theme
+  // Toggle theme function
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark"
+    setTheme(newTheme)
+    if (mounted) {
+      localStorage.setItem("theme", newTheme)
+    }
+  }
+
+  useEffect(() => {
+    setMounted(true)
+    // Get theme from localStorage or use system preference
+    const savedTheme =
+      localStorage.getItem("theme") ||
+      (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+
+    setTheme(savedTheme)
+  }, [])
+
   useEffect(() => {
     if (!mounted) return
 
-    const root = window.document.documentElement
-
-    // Remove old theme class
-    root.classList.remove("light", "dark")
-
-    // Add new theme class
-    if (theme === "system" && enableSystem) {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
-      root.classList.add(systemTheme)
-    } else {
-      root.classList.add(theme)
-    }
-  }, [theme, enableSystem, mounted])
-
-  // Set mounted state
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  // Handle system theme changes
-  useEffect(() => {
-    if (!enableSystem || !mounted) return
-
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
-
-    const handleChange = () => {
-      if (theme === "system") {
-        const root = window.document.documentElement
-        root.classList.remove("light", "dark")
-        root.classList.add(mediaQuery.matches ? "dark" : "light")
-      }
-    }
-
-    mediaQuery.addEventListener("change", handleChange)
-    return () => mediaQuery.removeEventListener("change", handleChange)
-  }, [theme, enableSystem, mounted])
+    document.documentElement.classList.remove("light", "dark")
+    document.documentElement.classList.add(theme)
+  }, [theme, mounted])
 
   const value = {
     theme,
-    setTheme,
+    setTheme: (newTheme) => {
+      setTheme(newTheme)
+      if (mounted) {
+        localStorage.setItem("theme", newTheme)
+      }
+    },
+    toggleTheme,
+  }
+
+  // Avoid hydration mismatch by not rendering until mounted
+  if (!mounted) {
+    return <div style={{ visibility: "hidden" }}>{children}</div>
   }
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>

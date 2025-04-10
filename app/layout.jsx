@@ -1,3 +1,15 @@
+import "./globals.css"
+import "./styles/footer.css"
+import { Inter } from "next/font/google"
+
+// Initialize the Inter font with the subsets and weights we need
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-inter",
+})
+
 export const metadata = {
   title: "CountryLens - Explore Countries Around the World",
   description: "A modern dashboard to explore and learn about countries worldwide",
@@ -5,35 +17,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-        <style>{`
-          * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-          }
-          
-          body {
-            font-family: 'Inter', sans-serif;
-          }
-          
-          @keyframes pulse {
-            0%, 100% {
-              opacity: 1;
-            }
-            50% {
-              opacity: 0.5;
-            }
-          }
-        `}</style>
-      </head>
+    <html lang="en" className={inter.className}>
       <body>{children}</body>
     </html>
   )
