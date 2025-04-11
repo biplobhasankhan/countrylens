@@ -1,6 +1,8 @@
 import "./globals.css"
 import "./styles/footer.css"
 import "./styles/filter.css"
+import "./styles/features.css"
+import "./styles/header.css"
 import { Inter } from "next/font/google"
 
 // Initialize the Inter font with the subsets and weights we need

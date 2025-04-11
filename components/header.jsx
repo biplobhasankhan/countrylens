@@ -96,8 +96,43 @@ export default function Header() {
             <button className="btn btn-outline">Compare Countries</button>
           </Link>
           <Link href="/map">
-            <button className="btn btn-outline">Map Explorer</button>
+            <button className="btn btn-outline">Map</button>
           </Link>
+
+          {/* New Feature Links */}
+          <div className="nav-dropdown">
+            <button className="btn btn-outline nav-dropdown-trigger">
+              Travel Tools
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="dropdown-icon"
+              >
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </button>
+            <div className="nav-dropdown-content">
+              <Link href="/travel-info">
+                <button className="dropdown-item">Visa & Advisory</button>
+              </Link>
+              <Link href="/currency">
+                <button className="dropdown-item">Currency</button>
+              </Link>
+              <Link href="/time-zone">
+                <button className="dropdown-item">Time Zones</button>
+              </Link>
+              <Link href="/language">
+                <button className="dropdown-item">Language</button>
+              </Link>
+            </div>
+          </div>
+
           <button className="theme-toggle-btn" onClick={toggleTheme} aria-label="Toggle theme">
             <div className="theme-toggle-track">
               <div className="theme-toggle-thumb"></div>
