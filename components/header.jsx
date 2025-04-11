@@ -1,12 +1,41 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { useTheme } from "@/components/theme-provider"
 
 export default function Header() {
   const { theme, toggleTheme } = useTheme()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const menuRef = useRef(null)
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMobileMenuOpen(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [menuRef])
+
+  // Close menu when window is resized to desktop size
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth >= 768) {
+        setMobileMenuOpen(false)
+      }
+    }
+
+    window.addEventListener("resize", handleResize)
+    return () => {
+      window.removeEventListener("resize", handleResize)
+    }
+  }, [])
 
   return (
     <header className="header">
@@ -56,7 +85,7 @@ export default function Header() {
           </svg>
         </button>
 
-        <nav className={`nav ${mobileMenuOpen ? "nav-mobile-open" : ""}`}>
+        <nav className={`nav ${mobileMenuOpen ? "nav-mobile-open" : ""}`} ref={menuRef}>
           <Link href="/">
             <button className="btn btn-outline">Home</button>
           </Link>
@@ -107,6 +136,7 @@ export default function Header() {
                 <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
               </svg>
             )}
+            {/* Toggle theme */}
 {/*             Toggle theme */}
           </button>
         </nav>

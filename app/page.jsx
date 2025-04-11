@@ -12,6 +12,7 @@ export default function Home() {
   const [filteredCountries, setFilteredCountries] = useState([])
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedRegion, setSelectedRegion] = useState("")
+  const [sortOption, setSortOption] = useState("name-asc") // Default sort by name A-Z
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -41,16 +42,44 @@ export default function Home() {
   useEffect(() => {
     let result = countries
 
+    // Apply search filter
     if (searchTerm) {
       result = result.filter((country) => country.name.common.toLowerCase().includes(searchTerm.toLowerCase()))
     }
 
+    // Apply region filter
     if (selectedRegion) {
       result = result.filter((country) => country.region === selectedRegion)
     }
 
+    // Apply sorting
+    result = sortCountries(result, sortOption)
+
     setFilteredCountries(result)
-  }, [searchTerm, selectedRegion, countries])
+  }, [searchTerm, selectedRegion, countries, sortOption])
+
+  const sortCountries = (countriesToSort, option) => {
+    const sorted = [...countriesToSort]
+
+    switch (option) {
+      case "name-asc": // A-Z
+        return sorted.sort((a, b) => a.name.common.localeCompare(b.name.common))
+      case "name-desc": // Z-A
+        return sorted.sort((a, b) => b.name.common.localeCompare(a.name.common))
+      case "population-asc": // Population low to high
+        return sorted.sort((a, b) => a.population - b.population)
+      case "population-desc": // Population high to low
+        return sorted.sort((a, b) => b.population - a.population)
+      case "alpha-a": // Countries starting with A first
+        return sorted.sort((a, b) => {
+          const aStartsWithA = a.name.common.toLowerCase().startsWith("a") ? 0 : 1
+          const bStartsWithA = b.name.common.toLowerCase().startsWith("a") ? 0 : 1
+          return aStartsWithA - bStartsWithA || a.name.common.localeCompare(b.name.common)
+        })
+      default:
+        return sorted
+    }
+  }
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value)
@@ -58,6 +87,10 @@ export default function Home() {
 
   const handleRegionSelect = (region) => {
     setSelectedRegion(region === selectedRegion ? "" : region)
+  }
+
+  const handleSortChange = (e) => {
+    setSortOption(e.target.value)
   }
 
   if (error) {
@@ -113,16 +146,33 @@ export default function Home() {
                   />
                 </div>
               </div>
-              <div className="region-filters">
-                {regions.map((region) => (
-                  <button
-                    key={region}
-                    className={`region-btn ${selectedRegion === region ? "active" : ""}`}
-                    onClick={() => handleRegionSelect(region)}
+
+              <div className="filter-controls">
+                <div className="region-filters">
+                  {regions.map((region) => (
+                    <button
+                      key={region}
+                      className={`region-btn ${selectedRegion === region ? "active" : ""}`}
+                      onClick={() => handleRegionSelect(region)}
+                    >
+                      {region}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="sort-container">
+                  <select
+                    className="sort-select"
+                    value={sortOption}
+                    onChange={handleSortChange}
+                    aria-label="Sort countries"
                   >
-                    {region}
-                  </button>
-                ))}
+                    <option value="name-asc">Name (A-Z)</option>
+                    <option value="name-desc">Name (Z-A)</option>
+                    <option value="population-asc">Population (Low to High)</option>
+                    <option value="population-desc">Population (High to Low)</option>
+                  </select>
+                </div>
               </div>
             </section>
 

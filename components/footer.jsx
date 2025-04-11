@@ -159,9 +159,8 @@ export default function Footer() {
 
       <div className="footer-bottom">
         <div className="footer-credit">
-          Made with
-          <span className="footer-heart">❤️</span>
-          by Biplob Hasan Khan
+          Made 
+          {/* <span className="footer-heart"></span> */} by Biplob Hasan Khan
         </div>
         <div className="footer-copyright">© {year} CountryLens. All rights reserved.</div>
       </div>
