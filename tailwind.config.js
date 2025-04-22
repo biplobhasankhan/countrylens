@@ -99,4 +99,12 @@ module.exports = {
     },
     plugins: [require("tailwindcss-animate")],
   }
+  module.exports = {
+    webpack(config, { dev }) {
+      if (!dev) {
+        config.optimization.minimize = false; // Disable minification in production build
+      }
+      return config;
+    }
+  };
   
