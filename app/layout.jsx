@@ -4,6 +4,7 @@ import "./styles/filter.css"
 import "./styles/features.css"
 import "./styles/header.css"
 import { Inter } from "next/font/google"
+import { Analytics } from "@vercel/analytics/react"
 
 // Initialize the Inter font with the subsets and weights we need
 const inter = Inter({
