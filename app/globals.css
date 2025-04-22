@@ -172,7 +172,7 @@ button {
   }
 }
 
-* Advanced loading spinner animation */
+/* Advanced loading spinner animation */
 @keyframes spinner-grow {
   0% {
     transform: scale(0);
@@ -209,6 +209,9 @@ button {
     transform: translateX(200%) translateZ(0) scaleY(1);
   }
 }
+
+
+
 
 /* App wrapper */
 .app-wrapper {
@@ -1619,7 +1622,7 @@ button {
   animation-delay: 0.8s;
 }
 
-/* Responsive styles - Improved */
+/* Responsive styles */
 @media (max-width: 1024px) {
   .container {
     padding: 0 1rem;
@@ -1633,28 +1636,38 @@ button {
 @media (max-width: 768px) {
   .header {
     padding: 0 1rem;
-    height: auto;
-    min-height: var(--header-height);
-  }
-
-  .header-content {
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .nav {
-    flex-wrap: wrap;
-    justify-content: center;
   }
 
   .grid {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
   }
 
-  .country-detail-grid,
-  .info-grid,
-  .geography-grid {
+  .results-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .nav {
+    gap: 0.5rem;
+  }
+
+  .btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .country-detail-grid {
     grid-template-columns: 1fr;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-cards {
+    grid-template-columns: 1fr 1fr;
   }
 
   .map-page-grid {
@@ -1662,19 +1675,35 @@ button {
   }
 
   .country-list {
-    height: auto;
-    max-height: 300px;
+    height: 300px;
     margin-top: 1.5rem;
+    order: 2;
   }
 
-  .compare-selects,
-  .compare-flags,
+  .map-container {
+    order: 1;
+  }
+
+  .compare-selects {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .compare-flags {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
   .about-grid {
     grid-template-columns: 1fr;
   }
 
   .tech-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .geography-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -1684,25 +1713,27 @@ button {
     padding: 0.5rem 0;
   }
 
-  .nav {
-    margin-top: 0.5rem;
+  .header {
+    height: auto;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
 
   .main {
-    padding: 1rem 0;
+    min-height: calc(100vh - 100px);
+    padding-top: 1rem;
   }
 
   .grid {
     grid-template-columns: 1fr;
-    gap: 1rem;
   }
 
-  .section-title {
-    font-size: 1.5rem;
+  .region-filters {
+    justify-content: center;
   }
 
-  .country-card {
-    max-width: 100%;
+  .logo {
+    margin-bottom: 0.5rem;
   }
 
   .stat-cards {
@@ -1710,51 +1741,37 @@ button {
   }
 
   .tabs {
-    display: flex;
     overflow-x: auto;
+    white-space: nowrap;
     padding-bottom: 0.5rem;
   }
 
   .tab {
-    white-space: nowrap;
+    padding: 0.75rem 1rem;
   }
 
   .tech-grid {
     grid-template-columns: 1fr;
   }
 
-  .btn {
-    width: 100%;
-    margin-bottom: 0.5rem;
+  .about-title {
+    font-size: 2rem;
   }
 
-  .region-filters {
-    justify-content: flex-start;
+  .compare-row-content {
+    grid-template-columns: 1fr;
   }
 
-  .region-btn {
-    flex-grow: 1;
-    text-align: center;
-  }
-}
-
-/* Very small devices (phones, 360px and below) */
-@media (max-width: 360px) {
-  .logo {
-    font-size: 1.25rem;
+  .compare-value {
+    border-bottom: 1px solid var(--border);
   }
 
-  .nav {
-    gap: 0.25rem;
+  .compare-value:last-child {
+    border-bottom: none;
   }
 
-  .btn {
-    padding: 0.4rem 0.6rem;
-    font-size: 0.7rem;
-  }
-
-  .section-title {
-    font-size: 1.3rem;
+  .connect-buttons {
+    flex-direction: column;
+    align-items: center;
   }
 }
-
